@@ -1,15 +1,35 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Assignment 2 coursera course: Return a matrix that is the ##inverse of 'x'
+## makeCacheMatrix : This function creates a special "matrix" ##object that can cache its inverse
+## cacheSolve :  This function computes the inverse of the ##special matrix returned by `makeCacheMatrix` above.
 
-## Write a short comment describing this function
+makeCacheMatrix <- function(x = matrix()) { 
+  ## This function creates a special "matrix" object that can     
+  ## cache its inverse
 
-makeCacheMatrix <- function(x = matrix()) {
-
+  mtx<-NULL
+  set<-function(y){
+    x<<-y
+    mtx<<-NULL
+  }
+  get<-function() x
+  setmatrix<-function(solve) mtx<<- solve
+  getmatrix<-function() mtx
+  list(set=set, get=get, setmatrix=setmatrix, getmatrix=getmatrix)
 }
 
 
-## Write a short comment describing this function
+cacheSolve <- function(x=matrix(), ...) {
+  ## This function computes the inverse of the special
+  ##   "matrix" returned by `makeCacheMatrix` above
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  mtx<-x$getmatrix()
+  if(!is.null(mtx)){
+    message("getting matrix from cache")
+    return(mtx)
+  }
+  matrix<-x$get()
+  mtx<-solve(matrix, ...) ##Computing the inverse of a square matrix 
+  x$setmatrix(mtx)
+  mtx
 }
+
